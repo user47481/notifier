@@ -12,7 +12,7 @@ class m171019_111303_create_notify_history_table extends Migration
      */
     public function up()
     {
-        $this->createTable('notify_history', [
+        $this->createTable('notifier_history', [
             'id' => $this->primaryKey(),
             'template_id' => $this->integer()->notNull(),
             'data' => $this->text()->notNull(),

@@ -13,7 +13,7 @@ use notifier\interfaces\SenderAction;
 
 class EmailSender extends Sender implements SenderAction
 {
-    public function send($model,$template)
+    public function send($model)
     {
         // TODO: Implement send() method.
     }

@@ -12,7 +12,7 @@ class m171019_111118_create_templates_table extends Migration
      */
     public function up()
     {
-        $this->createTable('templates', [
+        $this->createTable('notifier_templates', [
             'id' => $this->primaryKey(),
             'label' => $this->string()->notNull(),
             'message' => $this->text()->notNull(),
@@ -20,7 +20,17 @@ class m171019_111118_create_templates_table extends Migration
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
         ]);
+
+        $this->createTable('notifier_senders',[
+            'id' => $this->primaryKey(),
+            'label' => $this->string()->notNull(),
+            'class' => $this->string(255)->notNull(),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer(),
+        ]);
     }
+
+
 
     /**
      * @inheritdoc

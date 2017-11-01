@@ -9,58 +9,99 @@
 namespace notifier\helpers;
 
 
+use notifier\Module;
 use notifier\senders\Sender;
 use yii\base\Exception;
+use Yii;
 
+/**
+ * Class SendHelper
+ * @package notifier\helpers
+ */
 class SendHelper
 {
+    /**
+     * @var
+     */
     private $_models;
+    /**
+     * @var HistoryHelper
+     */
     private $_historyHelper;
+    /**
+     * @var
+     */
     private $_template;
+    /**
+     * @var
+     */
     private $_type;
+    /**
+     * @var mixed
+     */
     private $_sender;
 
-    public function __construct($models,HistoryHelper $historyHelper,$template)
+    /**
+     * SendHelper constructor.
+     * @param $models
+     * @param HistoryHelper $historyHelper
+     * @param $template
+     */
+    public function __construct($models, HistoryHelper $historyHelper,$template)
     {
         $this->_historyHelper = $historyHelper;
         $this->_models = $models;
         $this->_template = $template;
         $this->_type = $this->_template->type_id;
-        $this->_sender = $this->prepareSender();
+        $this->_sender = $this->getSender();
     }
 
-    public function Notify(){
+    /**
+     *
+     */
+    public function notify(){
         $this->dataGuard($this->_models);
         foreach ($this->_models as $model){
             $this->send($model);
         }
     }
 
+    /**
+     * @param $models
+     * @throws Exception
+     */
     private function dataGuard($models){
         if(!$models){
-            throw new Exception(\Yii::t('notifier','Модели для рассылки пусты'));
+            throw new Exception(Yii::t('notifier','Модели для рассылки пусты'));
         }
     }
 
     /**
-     * @param $class Sender
+     * @param $model Sender
      */
-    private function send($model){
+    public function send($model){
         try{
             /* @var $sender Sender */
-            $sender->send($model,$this->_template);
+            $this->_sender->send($model);
         }catch (Exception $e){
-            echo \Yii::t('notifier','Что-то пошло не так:') . $e->getMessage();
+            echo Yii::t('notifier','Что-то пошло не так:') . $e->getMessage();
         }
     }
 
+    /**
+     * @return Sender
+     */
     private function prepareSender(){
         try{
-            $className = $this->_type.'Sender';
-            return new $className($this->_template);
+            return new $this->_type($this->_template);
         }catch (Exception $e){
-            echo \Yii::t('notifier','Класс сендера не создан:') . $e->getMessage();
+            echo Yii::t('notifier','Класс сендера не создан:') . $e->getMessage();
         }
+    }
+
+    private function getSender(){
+        $class = $this->_template->sender->class;
+        return new $class($this->_template);
     }
 
 }
