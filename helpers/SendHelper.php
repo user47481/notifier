@@ -21,10 +21,6 @@ use Yii;
 class SendHelper
 {
     /**
-     * @var
-     */
-    private $_models;
-    /**
      * @var HistoryHelper
      */
     private $_historyHelper;
@@ -32,10 +28,6 @@ class SendHelper
      * @var
      */
     private $_template;
-    /**
-     * @var
-     */
-    private $_type;
     /**
      * @var mixed
      */
@@ -47,33 +39,11 @@ class SendHelper
      * @param HistoryHelper $historyHelper
      * @param $template
      */
-    public function __construct($models, HistoryHelper $historyHelper,$template)
+    public function __construct(HistoryHelper $historyHelper,$template)
     {
         $this->_historyHelper = $historyHelper;
-        $this->_models = $models;
         $this->_template = $template;
-        $this->_type = $this->_template->type_id;
         $this->_sender = $this->getSender();
-    }
-
-    /**
-     *
-     */
-    public function notify(){
-        $this->dataGuard($this->_models);
-        foreach ($this->_models as $model){
-            $this->send($model);
-        }
-    }
-
-    /**
-     * @param $models
-     * @throws Exception
-     */
-    private function dataGuard($models){
-        if(!$models){
-            throw new Exception(Yii::t('notifier','Модели для рассылки пусты'));
-        }
     }
 
     /**
@@ -91,14 +61,6 @@ class SendHelper
     /**
      * @return Sender
      */
-    private function prepareSender(){
-        try{
-            return new $this->_type($this->_template);
-        }catch (Exception $e){
-            echo Yii::t('notifier','Класс сендера не создан:') . $e->getMessage();
-        }
-    }
-
     private function getSender(){
         $class = $this->_template->sender->class;
         return new $class($this->_template);

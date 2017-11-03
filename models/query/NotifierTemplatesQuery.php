@@ -8,10 +8,12 @@
 
 namespace notifier\models\query;
 
+use omgdef\multilingual\MultilingualTrait;
 use yii\db\ActiveQuery;
 
 class NotifierTemplatesQuery extends ActiveQuery
 {
+    use MultilingualTrait;
 
     public function all($db = null){
         return parent::all($db);

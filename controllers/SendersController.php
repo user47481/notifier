@@ -27,24 +27,30 @@ class SendersController extends CrudController
     }
 
     /**
-     * @param $id
+     * Updates an existing KeyStorageItem model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
      */
-    public function actionSettings($id){
-        $notifierModel = NotifierSenders::findOne(['id'=>$id]);
-        $settingsModel = new $notifierModel->class;
-        $model = new FormModel([
-            'keys'=> $settingsModel->settings()
-        ]);
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        $senderClass = $model->class;
+        $settings = new \keyStorage\models\forms\FormModel( $senderClass::settings() );
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('alert', [
-                'body' => Yii::t('backend', 'Settings was successfully saved'),
-                'options' => ['class' => 'alert alert-success']
+            \Yii::$app->getSession()->setFlash('success', 'Изменения сохранены');
+            $this->refresh();
+            return false;
+        }elseif($settings->load(Yii::$app->request->post()) && $settings->save()) {
+            \Yii::$app->getSession()->setFlash('success', 'Изменения сохранены');
+            $this->refresh();
+            return false;
+        }else{
+            return $this->render($this->updateTemplate, [
+                'model' => $model,
+                'settings' => $settings
             ]);
-            return $this->refresh();
         }
-
-        return $this->render('settings', ['model' => $model]);
     }
-
 }

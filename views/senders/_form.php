@@ -7,10 +7,15 @@
  */
 use metalguardian\formBuilder\ActiveFormBuilder;
 use yii\bootstrap\Html;
-
-$form = ActiveFormBuilder::begin();
-echo $form->renderForm($model,$model->prepareFormConfig($model->getFormConfig()));
-echo Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']);
-ActiveFormBuilder::end();
+use yii\bootstrap\Tabs;
 ?>
+<div class="box">
+    <div class="box-body">
+        <?php $form = ActiveFormBuilder::begin();
+        echo $form->renderForm($model,$model->prepareFormConfig($model->getFormConfig()));
+        echo Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']);
+        ActiveFormBuilder::end();
+        ?>
+    </div>
+</div>
 

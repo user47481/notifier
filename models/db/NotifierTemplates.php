@@ -9,14 +9,23 @@
 namespace notifier\models\db;
 
 
+use common\addons\behaviors\Multilang;
 use common\components\MainModel;
+use common\helpers\Lang;
 use metalguardian\formBuilder\ActiveFormBuilder;
 use notifier\models\query\NotifierTemplatesQuery;
 use notifier\senders\Sender;
 use yii\behaviors\TimestampBehavior;
 use Yii;
 use yii\helpers\ArrayHelper;
-
+/**
+ * This is the model class for table "{{%people_forms}}".
+ *
+ * @property integer $id
+ * @property string $label
+ * @property string $message
+ * @property integer $type_id
+ */
 class NotifierTemplates extends MainModel
 {
 
@@ -28,10 +37,32 @@ class NotifierTemplates extends MainModel
     public function behaviors()
     {
         return [
-          'timestamp' => [
+            'timestamp' => [
               'class'=>TimestampBehavior::className()
-          ]
+            ],
+            'multiLang' => [
+                'class'           => Multilang::className(),
+                'attributes'      => self::getLocalizedAttributesList(),
+                'languages'       => Lang::getLanguageKeys(),
+                'defaultLanguage' => 'ru',
+                'langForeignKey'  => 'notifier_templates_id',
+                'tableName'       => "{{%notifier_templates_lang}}",
+                'langClassName'   => NotifierTemplatesLang::className(),
+            ],
         ];
+    }
+
+    public function rules()
+    {
+        return [
+            [['label','message'],'safe'],
+            [['label','message'],'required'],
+        ];
+    }
+
+    public static function getLocalizedAttributesList()
+    {
+        return ['label','message'];
     }
 
     public function attributeLabels()
@@ -61,8 +92,15 @@ class NotifierTemplates extends MainModel
                 'type' => ActiveFormBuilder::INPUT_TEXT,
             ],
             'message' => [
-                'type' => ActiveFormBuilder::INPUT_TEXT,
+                'type' => ActiveFormBuilder::INPUT_TEXTAREA,
             ],
+
+        ];
+
+    }
+
+    public function getFormSelectItems(){
+        return [
             'type_id' => [
                 'type' => ActiveFormBuilder::INPUT_DROPDOWN_LIST,
                 'items' => ArrayHelper::map(NotifierSenders::find()->all(),'id','label'),
@@ -71,7 +109,6 @@ class NotifierTemplates extends MainModel
                 ],
             ],
         ];
-
     }
 
     public static function find()

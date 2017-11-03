@@ -33,7 +33,7 @@ class Sender implements SenderAction
         // TODO: Implement prepare() method.
     }
 
-    public function settings(){
+    public static function settings(){
         return [
             'keys' => [
                 'email_sender.status' => [

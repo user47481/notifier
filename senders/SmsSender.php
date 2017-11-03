@@ -10,10 +10,11 @@ namespace notifier\senders;
 
 
 use notifier\interfaces\SenderAction;
+use trntv\filekit\widget\Upload;
 use Yii;
 use keyStorage\models\forms\FormModel;
 
-class SmsSender extends Sender implements SenderAction
+class SmsSender extends Sender
 {
     public function send($model)
     {
@@ -29,11 +30,11 @@ class SmsSender extends Sender implements SenderAction
         return $client;
     }
 
-    public function settings(){
+    public static function settings(){
         return [
             'keys' => [
                 'sms_sender.status' => [
-                    'label' => Yii::t('sms_sender', 'Frontend maintenance mode'),
+                    'label' => Yii::t('sms_sender', 'Module Status'),
                     'type' => FormModel::TYPE_DROPDOWN,
                     'items' => [
                         'disabled' => Yii::t('backend', 'Disabled'),

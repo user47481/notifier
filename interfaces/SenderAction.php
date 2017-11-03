@@ -20,4 +20,6 @@ interface SenderAction
      * */
     public function prepare();
 
+    public static function settings();
+
 }

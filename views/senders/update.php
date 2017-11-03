@@ -5,6 +5,9 @@
  * Date: 29.10.17
  * Time: 11:52 AM
  */
+use yii\bootstrap\Tabs;
+
+$this->context->layout = '//common';
 ?>
 <div class="senders-update">
     <?php
@@ -12,9 +15,10 @@
         echo Yii::$app->session->getFlash('clientCreated');
     }
     ?>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+    <?php echo Tabs::widget([
+        'items'=>[
+            ['label'=>'Основное','content'=>$this->render('_form', compact('model'))],
+            ['label'=>'Настройки','content'=>$this->render('_form_settings', compact('settings'))],
+        ]
+    ]); ?>
 </div>
