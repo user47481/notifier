@@ -26,7 +26,7 @@ class SmsSender extends Sender
 
     public function prepare()
     {
-        $client = new \Zelenin\SmsRu\Api(new \Zelenin\SmsRu\Auth\ApiIdAuth(cv('sms_sender.api_id')));
+        $client = new \Zelenin\SmsRu\Api(new \Zelenin\SmsRu\Auth\ApiIdAuth(cvm('sms_sender.api_id')));
         return $client;
     }
 
