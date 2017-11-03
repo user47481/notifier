@@ -55,7 +55,7 @@ class NotifierTemplates extends MainModel
     public function rules()
     {
         return [
-            [['label','message'],'safe'],
+            [['label','message','type_id'],'safe'],
             [['label','message'],'required'],
         ];
     }

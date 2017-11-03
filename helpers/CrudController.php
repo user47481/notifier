@@ -161,7 +161,6 @@ class CrudController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            ddd($model);
             \Yii::$app->getSession()->setFlash('success', 'Изменения сохранены');
             $this->refresh();
             return false;
