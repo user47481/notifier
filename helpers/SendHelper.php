@@ -9,6 +9,7 @@
 namespace notifier\helpers;
 
 
+use notifier\models\db\NotifierTemplates;
 use notifier\Module;
 use notifier\senders\Sender;
 use yii\base\Exception;
@@ -39,8 +40,9 @@ class SendHelper
      * @param HistoryHelper $historyHelper
      * @param $template
      */
-    public function __construct($template)
+    public function __construct(HistoryHelper $historyHelper, NotifierTemplates $template)
     {
+        $this->_historyHelper = $historyHelper;
         $this->_template = $template;
         $this->_sender = $this->getSender();
     }
