@@ -39,9 +39,8 @@ class SendHelper
      * @param HistoryHelper $historyHelper
      * @param $template
      */
-    public function __construct(HistoryHelper $historyHelper,$template)
+    public function __construct($template)
     {
-        $this->_historyHelper = $historyHelper;
         $this->_template = $template;
         $this->_sender = $this->getSender();
     }
