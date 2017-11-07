@@ -53,7 +53,7 @@ class SendHelper
     public function send($model){
         try{
             /* @var $sender Sender */
-            $this->_sender->send($model);
+            return $this->_sender->send($model);
         }catch (Exception $e){
             echo Yii::t('notifier','Что-то пошло не так:') . $e->getMessage();
         }
