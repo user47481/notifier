@@ -14,6 +14,7 @@ use yii\widgets\ListView;
 </div>
 <div class="clearfix"></div>
 <hr>
+
 <?php echo ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView' => '_item',

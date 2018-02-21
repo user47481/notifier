@@ -87,6 +87,10 @@ class NotifierSenders extends MainModel
         ];
     }
 
+    public function getTemplates(){
+        return $this->hasMany(NotifierTemplates::className(),['type_id'=>'id']);
+    }
+
     /**
      * Fields for edit\create form
      * @return array

@@ -20,6 +20,8 @@ interface SenderAction
      * */
     public function prepare();
 
+    public function prepareMessage($model);
+
     public static function settings();
 
 }

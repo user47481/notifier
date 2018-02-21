@@ -19,9 +19,15 @@ class SmsSender extends Sender
     public function send($model)
     {
         $client = $this->prepare();
-        $sms = new \Zelenin\SmsRu\Entity\Sms($model->phone, $this->template->message);
+        $sms = new \Zelenin\SmsRu\Entity\Sms($model->phone, $this->prepareMessage($model));
         $client->test = 1;
         return $client->smsSend($sms);
+    }
+
+    public function prepareMessage($model)
+    {
+        $data = str_replace(['{ФИО}','{ИМЯ}'],[$model->name,$model->name],$this->template->message);
+        return $data;
     }
 
     public function prepare()

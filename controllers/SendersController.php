@@ -26,8 +26,6 @@ class SendersController extends CrudController
         return  NotifierSendersSearch::className();
     }
 
-
-
     /**
      * Updates an existing KeyStorageItem model.
      * If update is successful, the browser will be redirected to the 'view' page.

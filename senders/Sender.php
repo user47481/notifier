@@ -28,6 +28,11 @@ class Sender implements SenderAction
 
     }
 
+    public function prepareMessage($model)
+    {
+        // TODO: Implement prepareMessage() method.
+    }
+
     public function prepare()
     {
         // TODO: Implement prepare() method.

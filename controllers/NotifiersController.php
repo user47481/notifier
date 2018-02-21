@@ -28,7 +28,7 @@ class NotifiersController extends CrudController
     }
 
     public function getModelSearchClass(){
-        return  NotifierTemplatesSearch::className();
+        return  NotifierSendersSearch::className();
     }
 
 }
